@@ -13,7 +13,7 @@ A browser-based, single-player **free-roam skiing game on one stylised Matterhor
 
 1. **Art direction and feel.** Match the reference as closely as real-time rendering allows. This is the core feature of iteration 1.
 2. **Ski feel.** Movement, carving, jumps and crashes must feel great. The test mountain exists to tune this.
-3. **Performance.** Target **40 FPS** in a desktop browser on the **reference device: the user's MacBook Air (Apple Silicon, 16 GB RAM, integrated GPU, fanless — so sustained-load thermal throttling must be considered)**. If 40 FPS forces a major art compromise, flag it and discuss; don't silently downgrade the look.
+3. **Performance.** Target **40 FPS** in a desktop browser on the **reference device: the user's MacBook Air (Apple M5, 10-core GPU, 16 GB RAM, integrated GPU, fanless — so sustained-load thermal throttling must be considered)**. If 40 FPS forces a major art compromise, flag it and discuss; don't silently downgrade the look.
 4. **Robust foundations** for later features (multiplayer, mobile, customisation, audio). Design for them, but don't build them.
 
 ## 3. Iteration 1 (MVP) scope
