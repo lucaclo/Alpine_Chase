@@ -13,7 +13,7 @@ A browser-based, single-player **free-roam skiing game on one stylised Matterhor
 
 1. **Art direction and feel.** Match the reference as closely as real-time rendering allows. This is the core feature of iteration 1.
 2. **Ski feel.** Movement, carving, jumps and crashes must feel great. The test mountain exists to tune this.
-3. **Performance.** Target **40 FPS** on a mid-range laptop in a desktop browser. If 40 FPS forces a major art compromise, flag it and discuss; don't silently downgrade the look.
+3. **Performance.** Target **40 FPS** in a desktop browser on the **reference device: the user's MacBook Air (Apple Silicon, 16 GB RAM, integrated GPU, fanless — so sustained-load thermal throttling must be considered)**. If 40 FPS forces a major art compromise, flag it and discuss; don't silently downgrade the look.
 4. **Robust foundations** for later features (multiplayer, mobile, customisation, audio). Design for them, but don't build them.
 
 ## 3. Iteration 1 (MVP) scope
@@ -119,8 +119,10 @@ Jump/ollie (pop), spins 180–1080 in both directions, backflip, frontflip, 6 gr
 Preliminary recommendation (the plan should confirm or improve it):
 - **Mountain terrain:** start from a real **Matterhorn heightmap** (e.g. swisstopo swissALTI3D / SRTM DEM, free), crop and scale down to fit a ~1-minute run, then layer hand-authored edits (trail carving, feature placement, smoothing) stored as **data files in the repo**. That way Claude can change the mountain in code when the user gives feedback ("make this cliff smaller", "add a kicker here") and the result is reproducible.
 - **Placed features** (kickers, rails, rocks, trees, halfpipe, crevasses) are defined in a level data file (positions/rotations/params), with procedural/parametric meshes for kickers, rails, halfpipe, etc.
-- **Rider:** generate concept/turnaround art matching the reference in **ComfyUI** (user has it locally), then image-to-3D (e.g. Hunyuan3D / TRELLIS nodes in ComfyUI), clean up in Blender, auto-rig and animate via **Mixamo** (free) or equivalent, and export to glTF/GLB.
-- **Textures:** hand-painted-style snow/rock/cloth textures and skybox/cloud elements generated in **ComfyUI**.
+- **User hardware constraint:** MacBook Air, 16 GB RAM, no dedicated GPU. ComfyUI is installed. Blender is **not** installed, and the user has no Blender experience. Local image-to-3D (TRELLIS/Hunyuan3D) is **not viable** on this machine (CUDA-only or far too slow). ComfyUI is fine for 2D work (SDXL-class models, ~1024px, slowish).
+- **Rider:** generate concept/turnaround art matching the reference in **ComfyUI**. Then either (a) convert it with a **hosted image-to-3D service** (e.g. Tripo / Meshy / Hunyuan3D web, free tiers), or (b) start from a **CC0 rigged stylised base character** (e.g. Quaternius) restyled with our outfit meshes/materials. Auto-rig and animate via **Mixamo** (free). Export to glTF/GLB. The plan should pick one, with a fallback. The art spike can use a simple stand-in rider.
+- **Blender (free) is recommended to install, but the user won't operate it.** Claude drives it **headlessly via Python scripts** (`blender --background --python script.py`) for clean-up, decimation, retargeting and GLB export, so asset steps are reproducible scripts in the repo.
+- **Textures:** hand-painted-style snow/rock/cloth textures and skybox/cloud elements generated in **ComfyUI** (the user runs them from prompts/workflows that Claude provides and saves them into the repo). Also prefer **procedural/shader-generated** textures where possible, to reduce the asset burden.
 - **Props:** CC0 stylised packs (e.g. Quaternius, Kenney) or ComfyUI → 3D, restyled by our shaders.
 - All assets use **glTF/GLB**, compressed (Draco/Meshopt + KTX2) for web performance.
 
